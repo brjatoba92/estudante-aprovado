@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { StudyProvider } from './contexts/StudyContext';
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import Sidebar from './components/layout/Sidebar';
 import Home from './components/home/Home';
-import { HiMenu } from 'react-icons/hi';
+import { HiMenu, HiMoon, HiSun } from 'react-icons/hi';
 import './styles/home.css';
 
 // Componentes placeholder (mantenha os existentes)
@@ -19,11 +20,27 @@ const Historico = () => <div className="page-container"><h1>Histórico - Em Brev
 const Estatisticas = () => <div className="page-container"><h1>Estatísticas - Em Breve</h1></div>;
 const Simulados = () => <div className="page-container"><h1>Simulados - Em Breve</h1></div>;
 
+// Componente de botão de alternar tema
+const ThemeToggle = () => {
+  const { isDarkMode, toggleDarkMode } = useTheme();
+  return (
+    <button 
+      className="theme-toggle" 
+      onClick={toggleDarkMode}
+      aria-label={isDarkMode ? 'Modo Claro' : 'Modo Escuro'}
+      title={isDarkMode ? 'Alternar para modo claro' : 'Alternar para modo escuro'}
+    >
+      {isDarkMode ? <HiSun size={20} /> : <HiMoon size={20} />}
+    </button>
+  );
+};
+
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <StudyProvider>
+    <ThemeProvider>
+      <StudyProvider>
       <Router>
         <div className="App">
           {/* Sidebar */}
@@ -46,9 +63,10 @@ function App() {
                 <h1>StudyPlanner</h1>
                 <p>Preparação para Concursos</p>
               </div>
+              <ThemeToggle />
             </header>
 
-            {/* Conteúdo das páginas */}
+            {/* Conteúdo das páginas - Rotas */}
             <div className="page-content">
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -69,6 +87,7 @@ function App() {
         </div>
       </Router>
     </StudyProvider>
+    </ThemeProvider>
   );
 }
 
