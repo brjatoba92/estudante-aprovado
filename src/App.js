@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import PlansPage from './components/plans/PlansPage';
 import { StudyProvider } from './contexts/StudyContext';
 import { UserProvider } from './contexts/UserContext';
+import { PlanProvider } from './contexts/PlanContext';
 import Sidebar from './components/layout/Sidebar';
 import UserAvatar from './components/layout/UserAvatar';
 import Home from './components/home/Home';
@@ -92,6 +94,7 @@ function App() {
   return (
     <ThemeProvider>
       <UserProvider>
+        <PlanProvider>
         <StudyProvider>
           <Router>
             <div className="App">
@@ -126,7 +129,7 @@ function App() {
                   <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/home" element={<Home />} />
-                    <Route path="/planos" element={<Planos />} />
+                    <Route path="/planos" element={<PlansPage />} />
                     <Route path="/editais" element={<CadastroEditais />} />
                     <Route path="/disciplinas" element={<CadastroDisciplinas />} />
                     <Route path="/planejamento" element={<Planejamento />} />
@@ -142,6 +145,7 @@ function App() {
             </div>
           </Router>
         </StudyProvider>
+        </PlanProvider>
       </UserProvider>
     </ThemeProvider>
   );
