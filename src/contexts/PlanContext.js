@@ -1,8 +1,31 @@
-import React, { createContext, useContext, useReducer} from "react";
+import React, { createContext, useContext, useReducer, useEffect} from "react";
 
 const PlanContext = createContext();
 
-const initialPlanState = {
+// Funções para localStorage
+const loadPlanState = () => {
+  try {
+    const serializedState = localStorage.getItem('planPlatformState');
+    if (serializedState === null) {
+      return undefined;
+    }
+    return JSON.parse(serializedState);
+  } catch (err) {
+    console.error('Erro ao carregar estado dos planos:', err);
+    return undefined;
+  }
+};
+
+const savePlanState = (state) => {
+  try {
+    const serializedState = JSON.stringify(state);
+    localStorage.setItem('planPlatformState', serializedState);
+  } catch (err) {
+    console.error('Erro ao salvar estado dos planos:', err);
+  }
+};
+
+const initialPlanState = loadPlanState() || {
     userPlans: [],
     activePlan: null,
     selectedConcurso: null
@@ -49,6 +72,11 @@ function planReducer(state, action) {
 
 export const PlanProvider = ({ children }) => {
     const [state, dispatch] = useReducer(planReducer, initialPlanState);
+    
+    // Salvar no localStorage sempre que o estado mudar
+    useEffect(() => {
+        savePlanState(state);
+    }, [state]);
     
     const addUserPlan = (plan) => {
         dispatch({ type: 'ADD_USER_PLAN', payload: plan });

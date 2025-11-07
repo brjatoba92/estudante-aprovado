@@ -6,11 +6,13 @@ import PlansPage from './components/plans/PlansPage';
 import { StudyProvider } from './contexts/StudyContext';
 import { UserProvider } from './contexts/UserContext';
 import { PlanProvider } from './contexts/PlanContext';
+import { PlanningProvider } from './contexts/PlanningContext';
 import Sidebar from './components/layout/Sidebar';
 import UserAvatar from './components/layout/UserAvatar';
 import Home from './components/home/Home';
 import { HiMenu, HiMoon, HiSun } from 'react-icons/hi';
 import './styles/home.css';
+import PlanningPage from './components/planning/PlanningPage';
 
 // Componentes placeholder (mantenha os existentes)
 const Planos = () => (
@@ -95,6 +97,7 @@ function App() {
     <ThemeProvider>
       <UserProvider>
         <PlanProvider>
+        <PlanningProvider>
         <StudyProvider>
           <Router>
             <div className="App">
@@ -132,7 +135,7 @@ function App() {
                     <Route path="/planos" element={<PlansPage />} />
                     <Route path="/editais" element={<CadastroEditais />} />
                     <Route path="/disciplinas" element={<CadastroDisciplinas />} />
-                    <Route path="/planejamento" element={<Planejamento />} />
+                    <Route path="/planejamento" element={<PlanningPage />} />
                     <Route path="/registro" element={<RegistroEstudos />} />
                     <Route path="/edital-verticalizado" element={<EditalVerticalizado />} />
                     <Route path="/revisoes" element={<Revisoes />} />
@@ -145,6 +148,7 @@ function App() {
             </div>
           </Router>
         </StudyProvider>
+        </PlanningProvider>
         </PlanProvider>
       </UserProvider>
     </ThemeProvider>
